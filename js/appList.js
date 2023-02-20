@@ -4,15 +4,21 @@ export const doApi = async () => {
   const query = new URLSearchParams(window.location.search);
   let searchFor = query.get("search") || "israel";
   let url = `https://restcountries.com/v3.1/name/${searchFor}?fullText=true`;
+  
+  let loadingBanner = document.getElementById("loading-banner");
+  loadingBanner.style.display = "block";
+  
   let resp = await fetch(url);
   let data = await resp.json();
-  // console.log(data);
-
+  // console.log(data); 
   let borders_arr = data[0].borders ? await countryLoop(data[0].borders) : ["none"];
-    // console.log(borders_arr)
-
+  // console.log(borders_arr)
+  
   createList(data ,borders_arr)
+
+  loadingBanner.style.display = "none";
 }
+
 
 const borderCountry = async item => {
   let url = `https://restcountries.com/v3.1/alpha/${item}`;
